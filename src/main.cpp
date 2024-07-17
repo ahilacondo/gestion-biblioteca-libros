@@ -3,10 +3,13 @@
 #include "../include/prestamo.h"
 #include <iostream>
 #include <vector>
+// Caracteres UTF-8
+#include <windows.h>
 
 using namespace std;
 
 int main() {
+    SetConsoleOutputCP(CP_UTF8);
     vector<Libro> libros;
     vector<Cancion> canciones;
     vector<Pelicula> peliculas;
