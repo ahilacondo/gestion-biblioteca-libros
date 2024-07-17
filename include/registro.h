@@ -3,9 +3,6 @@
 
 using namespace std;
 
-#include <string>
-#include <vector>
-
 struct Libro {
     int codigo;
     string nombre;

@@ -13,3 +13,5 @@ struct Prestamo {
 void establecerPrestamo(vector<Prestamo>& prestamos);
 void establecerDevolucion(vector<Prestamo>& prestamos, int codigoRegistro);
 void listarPrestamos(const vector<Prestamo>& prestamos);
+void guardarPrestamosEnFichero(const vector<Prestamo>& prestamos);
+void cargarPrestamosDesdeFichero(vector<Prestamo>& prestamos);  
