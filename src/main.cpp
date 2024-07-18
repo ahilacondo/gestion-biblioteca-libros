@@ -3,26 +3,60 @@
 #include "../include/prestamo.h"
 #include <iostream>
 #include <vector>
-// Caracteres UTF-8
-#include <windows.h>
 
 using namespace std;
 
+// Para las opciones de menu
+void menuRegistro(vector<Libro>& libros, vector<Cancion>& canciones, vector<Pelicula>& peliculas);
+void menuUsuario(vector<Usuario>& usuarios);
+void menuPrestamo(vector<Prestamo>& prestamos);
+
 int main() {
-    SetConsoleOutputCP(CP_UTF8);
     vector<Libro> libros;
     vector<Cancion> canciones;
     vector<Pelicula> peliculas;
     vector<Usuario> usuarios;
     vector<Prestamo> prestamos;
     int opcion;
-    string dniUsuario;
-    int codigoLibro;
-    int codigoPrestamo;
 
     do {
         cout << "============================" << endl;
-        cout << "   Gestión de Biblioteca" << endl;
+        cout << "   Gestion de Biblioteca" << endl;
+        cout << "============================" << endl;
+        cout << "1. Operaciones de Registro" << endl;
+        cout << "2. Operaciones de Usuario" << endl;
+        cout << "3. Operaciones de Prestamo" << endl;
+        cout << "4. Salir" << endl;
+        cout << "Seleccione una opcion: ";
+        cin >> opcion;
+
+        switch (opcion) {
+            case 1:
+                menuRegistro(libros, canciones, peliculas);
+                break;
+            case 2:
+                menuUsuario(usuarios);
+                break;
+            case 3:
+                menuPrestamo(prestamos);
+                break;
+            case 4:
+                cout << "Saliendo..." << endl;
+                break;
+            default:
+                cout << "Opcion no valida." << endl;
+        }
+    } while (opcion != 4);
+
+    return 0;
+}
+
+// operaciones de registro
+void menuRegistro(vector<Libro>& libros, vector<Cancion>& canciones, vector<Pelicula>& peliculas) {
+    int opcion;
+    do {
+        cout << "============================" << endl;
+        cout << "   Operaciones de Registro" << endl;
         cout << "============================" << endl;
         cout << "1. Agregar Libro" << endl;
         cout << "2. Eliminar Libro" << endl;
@@ -31,81 +65,82 @@ int main() {
         cout << "5. Listar Libros" << endl;
         cout << "6. Guardar Libros en Fichero" << endl;
         cout << "7. Cargar Libros desde Fichero" << endl;
-        cout << "8. Agregar Usuario" << endl;
-        cout << "9. Eliminar Usuario" << endl;
-        cout << "10. Listar Usuarios" << endl;
-        cout << "11. Establecer Préstamo" << endl;
-        cout << "12. Establecer Devolución" << endl;
-        cout << "13. Listar Préstamos" << endl;
-        cout << "14. Guardar Préstamos en Fichero" << endl;
-        cout << "15. Cargar Préstamos desde Fichero" << endl;
-        cout << "16. Salir" << endl;
-        cout << "Seleccione una opción: ";
+        cout << "8. Agregar Cancion" << endl;
+        cout << "9. Eliminar Cancion" << endl;
+        cout << "10. Listar Canciones" << endl;
+        cout << "11. Agregar Pelicula" << endl;
+        cout << "12. Eliminar Pelicula" << endl;
+        cout << "13. Listar Peliculas" << endl;
+        cout << "14. Volver al Menu Principal" << endl;
+        cout << "Seleccione una opcion: ";
         cin >> opcion;
 
         switch (opcion) {
             case 1:
                 agregarLibro(libros);
                 break;
-            case 2:
-                cout << "Ingrese código del libro a eliminar: ";
-                cin >> codigoLibro;
-                eliminarLibro(libros, codigoLibro);
-                break;
-            case 3:
-                cout << "Ingrese código del libro a buscar: ";
-                cin >> codigoLibro;
-                buscarLibro(libros, codigoLibro);
-                break;
-            case 4:
-                cout << "Ingrese código del libro a actualizar: ";
-                cin >> codigoLibro;
-                actualizarLibro(libros, codigoLibro);
-                break;
-            case 5:
-                listarLibros(libros);
-                break;
-            case 6:
-                guardarLibrosEnFichero(libros);
-                break;
-            case 7:
-                cargarLibrosDesdeFichero(libros);
-                break;
-            case 8:
-                agregarUsuario(usuarios);
-                break;
-            case 9:
-                cout << "Ingrese DNI del usuario a eliminar: ";
-                cin >> dniUsuario;
-                eliminarUsuario(usuarios, dniUsuario);
-                break;
-            case 10:
-                listarUsuarios(usuarios);
-                break;
-            case 11:
-                establecerPrestamo(prestamos);
-                break;
-            case 12:
-                cout << "Ingrese código del registro a devolver: ";
-                cin >> codigoPrestamo;
-                establecerDevolucion(prestamos, codigoPrestamo);
-                break;
-            case 13:
-                listarPrestamos(prestamos);
-                break;
+                // completar con las demas opciones
             case 14:
-                guardarPrestamosEnFichero(prestamos);
-                break;
-            case 15:
-                cargarPrestamosDesdeFichero(prestamos);
-                break;
-            case 16:
-                cout << "Saliendo..." << endl;
+                cout << "Volviendo al Menu Principal..." << endl;
                 break;
             default:
-                cout << "Opción no válida." << endl;
+                cout << "Opcion no valida." << endl;
         }
-    } while (opcion != 16);
+    } while (opcion != 14);
+}
 
-    return 0;
+// operaciones de usuario
+void menuUsuario(vector<Usuario>& usuarios) {
+    int opcion;
+    do {
+        cout << "============================" << endl;
+        cout << "   Operaciones de Usuario" << endl;
+        cout << "============================" << endl;
+        cout << "1. Agregar Usuario" << endl;
+        cout << "2. Eliminar Usuario" << endl;
+        cout << "3. Listar Usuarios" << endl;
+        cout << "4. Volver al Menu Principal" << endl;
+        cout << "Seleccione una opcion: ";
+        cin >> opcion;
+
+        switch (opcion) {
+            case 1:
+                agregarUsuario(usuarios);
+                break;
+                // completar con las demas opciones
+            case 4:
+                cout << "Volviendo al Menu Principal..." << endl;
+                break;
+            default:
+                cout << "Opcion no valida." << endl;
+        }
+    } while (opcion != 4);
+}
+
+// operaciones de prestamo
+void menuPrestamo(vector<Prestamo>& prestamos) {
+    int opcion;
+    do {
+        cout << "============================" << endl;
+        cout << "   Operaciones de Prestamo" << endl;
+        cout << "============================" << endl;
+        cout << "1. Establecer Prestamo" << endl;
+        cout << "2. Establecer Devolucion" << endl;
+        cout << "3. Listar Prestamos" << endl;
+        cout << "4. Volver al Menu Principal" << endl;
+        cout << "Seleccione una opcion: ";
+        cin >> opcion;
+
+        switch (opcion) {
+            case 1:
+                establecerPrestamo(prestamos);
+                break;
+                // completar con las demas opciones
+            case 4:
+                cout << "Volviendo al Menu Principal..." << endl;
+                break;
+            default:
+                cout << "Opcion no valida." << endl;
+        }
+    } while (opcion != 4);
 }
