@@ -1,9 +1,0 @@
-# ninja log v6
-8	1046	7429797050594146	gui_autogen/timestamp	9c9b80d30f468222
-8	1046	7429797050594146	gui_autogen/mocs_compilation.cpp	9c9b80d30f468222
-8	1046	7429797050594146	C:/2024-UNSA/2024 - A/PROGRAMACION DE SISTEMAS/gestion-biblioteca-libros/gui/build/Desktop_Qt_6_7_2_llvm_mingw_64_bit-Debug/gui_autogen/timestamp	9c9b80d30f468222
-8	1046	7429797050594146	C:/2024-UNSA/2024 - A/PROGRAMACION DE SISTEMAS/gestion-biblioteca-libros/gui/build/Desktop_Qt_6_7_2_llvm_mingw_64_bit-Debug/gui_autogen/mocs_compilation.cpp	9c9b80d30f468222
-1064	2611	7429797051894135	CMakeFiles/gui.dir/main.cpp.obj	1925138685f7e8ad
-1059	2612	7429797051844169	CMakeFiles/gui.dir/gui_autogen/mocs_compilation.cpp.obj	7a2d1060ed63ccf3
-1072	2644	7429797051974149	CMakeFiles/gui.dir/mainwindow.cpp.obj	1c404d171044537c
-2644	2785	7429797067693919	gui.exe	dbc51432269eb0e7
