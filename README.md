@@ -32,7 +32,7 @@ cd src
 
 Compila los archivos fuente usando g++:
 
-``bash
+```bash
 g++ main.cpp libro.cpp cancion.cpp pelicula.cpp usuario.cpp prestamo.cpp -o gestion_biblioteca
 ```
 
@@ -40,7 +40,7 @@ g++ main.cpp libro.cpp cancion.cpp pelicula.cpp usuario.cpp prestamo.cpp -o gest
 
 Finalmente, ejecuta el proyecto:
 
-``bash
+```bash
 .\gestion_biblioteca.exe
 ```
 
