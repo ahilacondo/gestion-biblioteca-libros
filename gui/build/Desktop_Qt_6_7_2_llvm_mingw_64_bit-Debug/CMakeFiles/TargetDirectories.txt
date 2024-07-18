@@ -1,0 +1,9 @@
+C:/2024-UNSA/2024 - A/PROGRAMACION DE SISTEMAS/gestion-biblioteca-libros/gui/build/Desktop_Qt_6_7_2_llvm_mingw_64_bit-Debug/CMakeFiles/gui.dir
+C:/2024-UNSA/2024 - A/PROGRAMACION DE SISTEMAS/gestion-biblioteca-libros/gui/build/Desktop_Qt_6_7_2_llvm_mingw_64_bit-Debug/CMakeFiles/edit_cache.dir
+C:/2024-UNSA/2024 - A/PROGRAMACION DE SISTEMAS/gestion-biblioteca-libros/gui/build/Desktop_Qt_6_7_2_llvm_mingw_64_bit-Debug/CMakeFiles/rebuild_cache.dir
+C:/2024-UNSA/2024 - A/PROGRAMACION DE SISTEMAS/gestion-biblioteca-libros/gui/build/Desktop_Qt_6_7_2_llvm_mingw_64_bit-Debug/CMakeFiles/list_install_components.dir
+C:/2024-UNSA/2024 - A/PROGRAMACION DE SISTEMAS/gestion-biblioteca-libros/gui/build/Desktop_Qt_6_7_2_llvm_mingw_64_bit-Debug/CMakeFiles/install.dir
+C:/2024-UNSA/2024 - A/PROGRAMACION DE SISTEMAS/gestion-biblioteca-libros/gui/build/Desktop_Qt_6_7_2_llvm_mingw_64_bit-Debug/CMakeFiles/install/local.dir
+C:/2024-UNSA/2024 - A/PROGRAMACION DE SISTEMAS/gestion-biblioteca-libros/gui/build/Desktop_Qt_6_7_2_llvm_mingw_64_bit-Debug/CMakeFiles/install/strip.dir
+C:/2024-UNSA/2024 - A/PROGRAMACION DE SISTEMAS/gestion-biblioteca-libros/gui/build/Desktop_Qt_6_7_2_llvm_mingw_64_bit-Debug/CMakeFiles/gui_autogen_timestamp_deps.dir
+C:/2024-UNSA/2024 - A/PROGRAMACION DE SISTEMAS/gestion-biblioteca-libros/gui/build/Desktop_Qt_6_7_2_llvm_mingw_64_bit-Debug/CMakeFiles/gui_autogen.dir

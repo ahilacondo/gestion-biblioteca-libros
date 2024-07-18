@@ -54,6 +54,10 @@ int main() {
 // operaciones de registro
 void menuRegistro(vector<Libro>& libros, vector<Cancion>& canciones, vector<Pelicula>& peliculas) {
     int opcion;
+    int codigoLibro;
+    int codigoCancion;
+    int codigoPelicula;
+
     do {
         cout << "============================" << endl;
         cout << "   Operaciones de Registro" << endl;
@@ -77,10 +81,156 @@ void menuRegistro(vector<Libro>& libros, vector<Cancion>& canciones, vector<Peli
 
         switch (opcion) {
             case 1:
-                agregarLibro(libros);
+                cout << "============================" << endl;
+                cout << "   Operaciones de Libros    " << endl;
+                cout << "============================" << endl;
+                cout << "1. Agregar Libro" << endl;
+                cout << "2. Eliminar Libro" << endl;
+                cout << "3. Buscar Libro" << endl;
+                cout << "4. Actualizar Libro" << endl;
+                cout << "5. Listar Libros" << endl;
+                cout << "6. Guardar Libros en Fichero" << endl;
+                cout << "7. Cargar Libros desde Fichero" << endl;
+                cout << "8. Volver a Registro" << endl;
+                cout << "Seleccione una opcion: ";
+                cin >> opcion;
+
+                switch (opcion) {
+                    case 1:
+                        agregarLibro(libros);
+                        break;
+                    case 2:
+                        cout << "Ingrese codigo del libro a eliminar: ";
+                        cin >> codigoLibro;
+                        eliminarLibro(libros, codigoLibro);
+                        break;
+                    case 3:
+                        cout << "Ingrese codigo del libro a buscar: ";
+                        cin >> codigoLibro;
+                        buscarLibro(libros, codigoLibro);
+                        break;
+                    case 4:
+                        cout << "Ingrese codigo del libro a actualizar: ";
+                        cin >> codigoLibro;
+                        actualizarLibro(libros, codigoLibro);
+                        break;
+                    case 5:
+                        listarLibros(libros);
+                        break;
+                    case 6:
+                        guardarLibrosEnFichero(libros);
+                        break;
+                    case 7:
+                        cargarLibrosDesdeFichero(libros);
+                        break;
+                    case 8:
+                        cout << "Volviendo a Registro..." << endl;
+                        break;
+                    default:
+                        cout << "Opcion no valida." << endl;
+                }
                 break;
-                // completar con las demas opciones
-            case 14:
+            case 2:
+                cout << "============================" << endl;
+                cout << "  Operaciones de Canciones  " << endl;
+                cout << "============================" << endl;
+                cout << "1. Agregar Cancion" << endl;
+                cout << "2. Eliminar Cancion" << endl;
+                cout << "3. Buscar Cancion" << endl;
+                cout << "4. Actualizar Cancion" << endl;
+                cout << "5. Listar Canciones" << endl;
+                cout << "6. Guardar Canciones en Fichero" << endl;
+                cout << "7. Cargar Canciones desde Fichero" << endl;
+                cout << "8. Volver a Registro" << endl;
+                cout << "Seleccione una opcion: ";
+                cin >> opcion;
+
+                switch (opcion) {
+                    case 1:
+                        agregarCancion(canciones);
+                        break;
+                    case 2:
+                        cout << "Ingrese codigo de la cancion a eliminar: ";
+                        cin >> codigoCancion;
+                        eliminarCancion(canciones, codigoCancion);
+                        break;
+                    case 3:
+                        cout << "Ingrese codigo de la cancion a buscar: ";
+                        cin >> codigoCancion;
+                        buscarCancion(canciones, codigoCancion);
+                        break;
+                    case 4:
+                        cout << "Ingrese codigo de la canción a actualizar: ";
+                        cin >> codigoCancion;
+                        actualizarCancion(canciones, codigoCancion);
+                        break;
+                    case 5:
+                        listarCanciones(canciones);
+                        break;
+                    case 6:
+                        guardarCancionesEnFichero(canciones);
+                        break;
+                    case 7:
+                        cargarCancionesDesdeFichero(canciones);
+                        break;
+                    case 8:
+                        cout << "Volviendo a Registro..." << endl;
+                        break;
+                    default:
+                        cout << "Opcion no valida." << endl;
+                }
+                break;
+            case 3:
+                cout << "============================" << endl;
+                cout << "  Operaciones de Peliculas  " << endl;
+                cout << "============================" << endl;
+                cout << "1. Agregar Pelicula" << endl;
+                cout << "2. Eliminar Pelicula" << endl;
+                cout << "3. Buscar Pelicula" << endl;
+                cout << "4. Actualizar Pelicula" << endl;
+                cout << "5. Listar Peliculas" << endl;
+                cout << "6. Guardar Peliculas en Fichero" << endl;
+                cout << "7. Cargar Peliculas desde Fichero" << endl;
+                cout << "8. Volver a Registro" << endl;
+                cout << "Seleccione una opcion: ";
+                cin >> opcion;
+
+                switch (opcion) {
+                    case 1:
+                        agregarPelicula(peliculas);
+                        break;
+                    case 2:
+                        cout << "Ingrese codigo de la pelicula a eliminar: ";
+                        cin >> codigoPelicula;
+                        eliminarPelicula(peliculas, codigoPelicula);
+                        break;
+                    case 3:
+                        cout << "Ingrese codigo de la pelicula a buscar: ";
+                        cin >> codigoPelicula;
+                        buscarPelicula(peliculas, codigoPelicula);
+                        break;
+                    case 4:
+                        cout << "Ingrese codigo de la pelicula a actualizar: ";
+                        cin >> codigoPelicula;
+                        actualizarPelicula(peliculas, codigoPelicula);
+                        break;
+                    case 5:
+                        listarPeliculas(peliculas);
+                        break;
+                    case 6:
+                        guardarPeliculasEnFichero(peliculas);
+                        break;
+                    case 7:
+                        cargarPeliculasDesdeFichero(peliculas);
+                        break;
+                    case 8:
+                        cout << "Volviendo a Registro..." << endl;
+                        break;
+                    default:
+                        cout << "Opcion no valida." << endl;
+                }
+                break;
+            case 4:
                 cout << "Volviendo al Menu Principal..." << endl;
                 break;
             default:
@@ -92,6 +242,8 @@ void menuRegistro(vector<Libro>& libros, vector<Cancion>& canciones, vector<Peli
 // operaciones de usuario
 void menuUsuario(vector<Usuario>& usuarios) {
     int opcion;
+    string dniUsuario;
+
     do {
         cout << "============================" << endl;
         cout << "   Operaciones de Usuario" << endl;
@@ -107,7 +259,14 @@ void menuUsuario(vector<Usuario>& usuarios) {
             case 1:
                 agregarUsuario(usuarios);
                 break;
-                // completar con las demas opciones
+            case 2:
+                cout << "Ingrese DNI del usuario a eliminar: ";
+                cin >> dniUsuario;
+                eliminarUsuario(usuarios, dniUsuario);
+                break;
+            case 3:
+                listarUsuarios(usuarios);
+                break;
             case 4:
                 cout << "Volviendo al Menu Principal..." << endl;
                 break;
@@ -120,6 +279,8 @@ void menuUsuario(vector<Usuario>& usuarios) {
 // operaciones de prestamo
 void menuPrestamo(vector<Prestamo>& prestamos) {
     int opcion;
+    int codigoPrestamo;
+    
     do {
         cout << "============================" << endl;
         cout << "   Operaciones de Prestamo" << endl;
@@ -135,8 +296,21 @@ void menuPrestamo(vector<Prestamo>& prestamos) {
             case 1:
                 establecerPrestamo(prestamos);
                 break;
-                // completar con las demas opciones
+            case 2:
+                cout << "Ingrese codigo del registro a devolver: ";
+                cin >> codigoPrestamo;
+                establecerDevolucion(prestamos, codigoPrestamo);
+                break;
+            case 3:
+                listarPrestamos(prestamos);
+                break;
             case 4:
+                guardarPrestamosEnFichero(prestamos);
+                break;
+            case 5:
+                cargarPrestamosDesdeFichero(prestamos);
+                break;
+            case 6:
                 cout << "Volviendo al Menu Principal..." << endl;
                 break;
             default:
