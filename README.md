@@ -8,35 +8,35 @@ Este es un proyecto para gestionar una biblioteca de libros, canciones y pelícu
 
 Primero, clona el repositorio a tu máquina local:
 
-bash
+```bash
 git clone https://github.com/ahilacondo/gestion-biblioteca-libros.git
 
 ### Navegar al directorio del proyecto
 
 Después, cambia al directorio del proyecto:
 
-bash
+```bash
 cd gestion-biblioteca-libros
 
 ### Navegar al directorio src
 
 Cambia al directorio src:
 
-bash
+``bash
 cd src
 
 ### Compilar el proyecto
 
 Compila los archivos fuente usando g++:
 
-bash
+``bash
 g++ main.cpp libro.cpp cancion.cpp pelicula.cpp usuario.cpp prestamo.cpp -o gestion_biblioteca
 
 ### Ejecutar el proyecto
 
 Finalmente, ejecuta el proyecto:
 
-bash
+``bash
 .\gestion_biblioteca.exe
 
 ## Estructura del proyecto
