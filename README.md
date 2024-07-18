@@ -24,7 +24,7 @@ cd gestion-biblioteca-libros
 
 Cambia al directorio src:
 
-``bash
+```bash
 cd src
 ```
 
