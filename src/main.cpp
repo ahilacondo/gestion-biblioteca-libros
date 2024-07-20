@@ -1,6 +1,7 @@
 #include "../include/registro.h"
 #include "../include/usuario.h"
 #include "../include/prestamo.h"
+#include "../include/database_manager.h"
 #include <iostream>
 #include <vector>
 
@@ -18,7 +19,10 @@ int main() {
     vector<Usuario> usuarios;
     vector<Prestamo> prestamos;
     int opcion;
-
+    
+    // cargar datos al inicio del programa
+    DatabaseManager::cargarDatos(libros, canciones, peliculas, usuarios, prestamos);
+    
     do {
         cout << "============================" << endl;
         cout << "   Gestion de Biblioteca" << endl;
@@ -41,10 +45,16 @@ int main() {
                 menuPrestamo(prestamos);
                 break;
             case 4:
-                cout << "Saliendo..." << endl;
+                cout << "Guardando datos y saliendo..." << endl;
+                DatabaseManager::guardarDatos(libros, canciones, peliculas, usuarios, prestamos);
                 break;
             default:
                 cout << "Opcion no valida." << endl;
+        }
+
+        // guardar datos despuws de cada opcion
+        if (opcion != 4) {
+            DatabaseManager::guardarDatos(libros, canciones, peliculas, usuarios, prestamos);
         }
     } while (opcion != 4);
 
@@ -62,20 +72,10 @@ void menuRegistro(vector<Libro>& libros, vector<Cancion>& canciones, vector<Peli
         cout << "============================" << endl;
         cout << "   Operaciones de Registro" << endl;
         cout << "============================" << endl;
-        cout << "1. Agregar Libro" << endl;
-        cout << "2. Eliminar Libro" << endl;
-        cout << "3. Buscar Libro" << endl;
-        cout << "4. Actualizar Libro" << endl;
-        cout << "5. Listar Libros" << endl;
-        cout << "6. Guardar Libros en Fichero" << endl;
-        cout << "7. Cargar Libros desde Fichero" << endl;
-        cout << "8. Agregar Cancion" << endl;
-        cout << "9. Eliminar Cancion" << endl;
-        cout << "10. Listar Canciones" << endl;
-        cout << "11. Agregar Pelicula" << endl;
-        cout << "12. Eliminar Pelicula" << endl;
-        cout << "13. Listar Peliculas" << endl;
-        cout << "14. Volver al Menu Principal" << endl;
+        cout << "1. Opciones de Libros" << endl;
+        cout << "2. Opciones de Canciones" << endl;
+        cout << "3. Opciones de Peliculas" << endl;
+        cout << "4. Volver al Menu Principal" << endl;
         cout << "Seleccione una opcion: ";
         cin >> opcion;
 
@@ -246,7 +246,7 @@ void menuUsuario(vector<Usuario>& usuarios) {
 
     do {
         cout << "============================" << endl;
-        cout << "   Operaciones de Usuario" << endl;
+        cout << "   Operaciones de Usuario   " << endl;
         cout << "============================" << endl;
         cout << "1. Agregar Usuario" << endl;
         cout << "2. Eliminar Usuario" << endl;
@@ -283,7 +283,7 @@ void menuPrestamo(vector<Prestamo>& prestamos) {
     
     do {
         cout << "============================" << endl;
-        cout << "   Operaciones de Prestamo" << endl;
+        cout << "   Operaciones de Prestamo  " << endl;
         cout << "============================" << endl;
         cout << "1. Establecer Prestamo" << endl;
         cout << "2. Establecer Devolucion" << endl;
