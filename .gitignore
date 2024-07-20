@@ -34,3 +34,6 @@
 # Test
 *.test
 ./test
+
+# IDE's
+.vscode
