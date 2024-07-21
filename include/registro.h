@@ -102,6 +102,7 @@ void actualizarLibro(vector<Libro>& libros, int codigo);
 void listarLibros(const vector<Libro>& libros);
 void guardarLibrosEnFichero(const vector<Libro>& libros);
 void cargarLibrosDesdeFichero(vector<Libro>& libros);
+void ordenarLibros(vector<Libro>& libros);
 
 void agregarCancion(vector<Cancion>& canciones);
 void eliminarCancion(vector<Cancion>& canciones, int codigo);

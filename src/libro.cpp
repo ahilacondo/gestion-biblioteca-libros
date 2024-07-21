@@ -6,6 +6,7 @@
 #include <sstream>
 #include <stdexcept>
 #include <limits>
+#include <thread>
 
 using namespace std;
 
@@ -15,35 +16,168 @@ string aut;
 int anoPub;
 float prec;
 
+// Función para fusionar dos sub-vectores ordenados
+void merge(vector<Libro> &libros, int left, int mid, int right)
+{
+    int n1 = mid - left + 1;
+    int n2 = right - mid;
+
+    vector<Libro> L(n1);
+    vector<Libro> R(n2);
+
+    for (int i = 0; i < n1; ++i)
+        L[i] = libros[left + i];
+    for (int i = 0; i < n2; ++i)
+        R[i] = libros[mid + 1 + i];
+
+    int i = 0, j = 0, k = left;
+    while (i < n1 && j < n2)
+    {
+        if (L[i].codigo <= R[j].codigo)
+        {
+            libros[k] = L[i];
+            ++i;
+        }
+        else
+        {
+            libros[k] = R[j];
+            ++j;
+        }
+        ++k;
+    }
+
+    while (i < n1)
+    {
+        libros[k] = L[i];
+        ++i;
+        ++k;
+    }
+
+    while (j < n2)
+    {
+        libros[k] = R[j];
+        ++j;
+        ++k;
+    }
+}
+
+// Función recursiva para ordenar un vector de libros utilizando MergeSort
+void mergeSort(vector<Libro> &libros, int left, int right)
+{
+    if (left < right)
+    {
+        int mid = left + (right - left) / 2;
+
+        thread leftThread(mergeSort, ref(libros), left, mid);
+        thread rightThread(mergeSort, ref(libros), mid + 1, right);
+
+        leftThread.join();
+        rightThread.join();
+
+        merge(libros, left, mid, right);
+    }
+}
+
+// Función para ordenar el vector de libros utilizando hilos y MergeSort
+void ordenarLibros(vector<Libro> &libros)
+{
+    if (libros.empty())
+    {
+        cout << "No hay libros para ordenar." << endl;
+        return;
+    }
+
+    try
+    {
+        mergeSort(libros, 0, libros.size() - 1);
+        cout << "Libros ordenados exitosamente." << endl;
+    }
+    catch (const std::exception &e)
+    {
+        cerr << "Error al ordenar los libros: " << e.what() << endl;
+    }
+}
 // Implementación de funciones para Libro
 void agregarLibro(vector<Libro> &libros)
 {
     try
     {
         Libro libro;
-        cout << "Ingrese codigo del libro: ";
-        while (!(cin >> cod)) {
-            throw std::invalid_argument("Error: código del libro debe ser un número entero.");
-            cin.clear(); // Limpia el estado de error de cin
-            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Ignora el resto de la línea
+        // Codigo
+        while (true)
+        {
+            cout << "Ingrese codigo del libro: ";
+            if (cin >> cod)
+            {
+                bool existe = false;
+                for (const auto &l : libros)
+                {
+                    if (l.codigo == cod)
+                    {
+                        existe = true;
+                        break;
+                    }
+                }
+                if (existe)
+                {
+                    cout << "Error: Ya existe un libro con el código '" << to_string(cod) << "'" << endl;
+                    continue;
+                } else if(cod < 1){
+                    cout << "Error: El codigo no puede ser Negativo" << endl;
+                    continue;
+                }else 
+                    break;
+            }
+            else
+            {
+                cout << "Error: El código del libro debe ser un número entero." << endl;
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            }
         }
-        
+        // Nombre
         cout << "Ingrese nombre del libro: ";
         cin.ignore();
+        // Autor
         getline(cin, nom);
         cout << "Ingrese autor del libro: ";
         getline(cin, aut);
-        cout << "Ingrese año de publicacion: ";
-        while (!(cin >> anoPub)) {
-            throw std::invalid_argument("Error: año de publicación debe ser un número entero.");
-            cin.clear(); // Limpia el estado de error de cin
-            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Ignora el resto de la línea
+        // Año de publicacion
+        while (true)
+        {
+            cout << "Ingrese año de publicacion: ";
+            if (cin >> anoPub)
+            {
+                break;
+            }
+            else
+            {
+                cout << "Error: año de publicación debe ser un número entero." << endl;
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            }
         }
-        cout << "Ingrese precio del libro: ";
-        while (!(cin >> prec)) {
-            throw std::invalid_argument("Error: precio del libro debe ser un número decimal.");
-            cin.clear(); // Limpia el estado de error de cin
-            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Ignora el resto de la línea
+        // Precio
+        while (true)
+        {
+            cout << "Ingrese precio del libro: ";
+            if (cin >> prec)
+            {
+                if (prec < 0)
+                {
+                    cout << "Error: El precio del libro no puede ser un número negativo." << endl;
+                }
+                else
+                {
+                    break; // Precio válido y no negativo
+                }
+            }
+            else
+            {
+                cout << "Error: El precio del libro debe ser un número decimal." << endl;
+                cin.clear();                                         // Limpia el estado de error de cin
+                cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Ignora el resto de la línea
+            }
         }
         libro.codigo = cod;
         libro.nombre = nom;
@@ -112,15 +246,54 @@ void actualizarLibro(vector<Libro> &libros, int codigo)
         {
             if (libro.codigo == codigo)
             {
-                cout << "Ingrese nuevo nombre del libro: ";
+                // Nombre
+                cout << "Ingrese nombre del libro: ";
                 cin.ignore();
-                getline(cin, libro.nombre);
-                cout << "Ingrese nuevo autor del libro: ";
-                getline(cin, libro.autor);
-                cout << "Ingrese nuevo año de publicacion: ";
-                cin >> libro.anoPublicacion;
-                cout << "Ingrese nuevo precio del libro: ";
-                cin >> libro.precio;
+                // Autor
+                getline(cin, nom);
+                cout << "Ingrese autor del libro: ";
+                getline(cin, aut);
+                // Año de publicacion
+                while (true)
+                {
+                    cout << "Ingrese año de publicacion: ";
+                    if (cin >> anoPub)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        cout << "Error: año de publicación debe ser un número entero." << endl;
+                        cin.clear();
+                        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    }
+                }
+                // Precio
+                while (true)
+                {
+                    cout << "Ingrese precio del libro: ";
+                    if (cin >> prec)
+                    {
+                        if (prec < 0)
+                        {
+                            cout << "Error: El precio del libro no puede ser un número negativo." << endl;
+                        }
+                        else
+                        {
+                            break; // Precio válido y no negativo
+                        }
+                    }
+                    else
+                    {
+                        cout << "Error: El precio del libro debe ser un número decimal." << endl;
+                        cin.clear();                                         // Limpia el estado de error de cin
+                        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Ignora el resto de la línea
+                    }
+                }
+                libro.nombre = nom;
+                libro.autor = nom;
+                libro.anoPublicacion = anoPub;
+                libro.precio = prec;
                 cout << "Libro actualizado exitosamente." << endl;
                 return;
             }
@@ -162,7 +335,7 @@ void listarLibros(const vector<Libro> &libros)
 
 void guardarLibrosEnFichero(const vector<Libro> &libros)
 {
-    ofstream archivo("../archive/libro.txt");
+    ofstream archivo("../archive/libro.txt", ios::out | ios::trunc);
     if (!archivo.is_open())
     {
         throw runtime_error("No se pudo abrir el fichero para escritura.");
@@ -185,6 +358,7 @@ void cargarLibrosDesdeFichero(vector<Libro> &libros)
     }
     Libro libro;
     string linea;
+    libros.clear(); // Limpiar el vector antes de cargar
     while (getline(archivo, linea))
     {
         stringstream ss(linea);
