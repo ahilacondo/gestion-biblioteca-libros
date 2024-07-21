@@ -1,7 +1,10 @@
 #include "../include/registro.h"
 #include <iostream>
+#include <vector>
+#include <iomanip>
 #include <fstream>
 #include <sstream>
+#include <stdexcept>
 
 using namespace std;
 
@@ -70,18 +73,32 @@ void actualizarPelicula(vector<Pelicula>& peliculas, int codigo) {
 }
 
 void listarPeliculas(const vector<Pelicula>& peliculas) {
+    const int anchoCodigo = 10;
+    const int anchoNombre = 30;
+    const int anchoDirector = 25;
+    const int anchoAno = 15;
+    const int anchoGenero = 15;
+    
+    cout << left
+         << setw(anchoCodigo) << "Codigo"
+         << setw(anchoNombre) << "Nombre"
+         << setw(anchoDirector) << "Director"
+         << setw(anchoAno) << "Año"
+         << setw(anchoGenero) << "Genero" << endl;
+    cout << string(anchoCodigo + anchoNombre + anchoDirector + anchoAno + anchoGenero, '-') << endl;
+
     for (const auto& pelicula : peliculas) {
-        cout << "Codigo: " << pelicula.codigo << endl;
-        cout << "Nombre: " << pelicula.nombre << endl;
-        cout << "Director: " << pelicula.director << endl;
-        cout << "Año de estreno: " << pelicula.anoEstreno << endl;
-        cout << "Genero: " << pelicula.genero << endl;
-        cout << "------------------------" << endl;
+        cout << left
+             << setw(anchoCodigo) << pelicula.codigo
+             << setw(anchoNombre) << (pelicula.nombre.length() > anchoNombre - 3 ? pelicula.nombre.substr(0, anchoNombre - 3) + "..." : pelicula.nombre)
+             << setw(anchoDirector) << (pelicula.director.length() > anchoDirector - 3 ? pelicula.director.substr(0, anchoDirector - 3) + "..." : pelicula.director)
+             << setw(anchoAno) << pelicula.anoEstreno
+             << setw(anchoGenero) << (pelicula.genero.length() > anchoGenero - 3 ? pelicula.genero.substr(0, anchoGenero - 3) + "..." : pelicula.genero) << endl;
     }
 }
 
 void guardarPeliculasEnFichero(const vector<Pelicula>& peliculas) {
-    ofstream archivo("peliculas.txt");
+    ofstream archivo("../archive/pelicula.txt");
     if (!archivo.is_open()) {
         throw runtime_error("No se pudo abrir el fichero para escritura.");
     }
@@ -94,9 +111,9 @@ void guardarPeliculasEnFichero(const vector<Pelicula>& peliculas) {
 }
 
 void cargarPeliculasDesdeFichero(vector<Pelicula>& peliculas) {
-    ifstream archivo("peliculas.txt");
+    ifstream archivo("../archive/pelicula.txt");
     if (!archivo.is_open()) {
-        throw runtime_error("No se pudo abrir el fichero para lectura.");
+        throw runtime_error("No se pudo abrir el fichero para lectura. Se iniciara con una lista vacia.");
     }
     Pelicula pelicula;
     string linea;

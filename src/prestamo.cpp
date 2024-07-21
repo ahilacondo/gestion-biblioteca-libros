@@ -1,6 +1,10 @@
 #include "../include/prestamo.h"
 #include <iostream>
+#include <vector>
+#include <iomanip>
 #include <fstream>
+#include <sstream>
+#include <stdexcept>
 
 using namespace std;
 
@@ -31,54 +35,58 @@ void establecerDevolucion(vector<Prestamo>& prestamos, int codigoRegistro) {
 }
 
 void listarPrestamos(const vector<Prestamo>& prestamos) {
+    const int anchoCodigo = 15;
+    const int anchoDNI = 15;
+    const int anchoFechaPrestamo = 20;
+    const int anchoFechaDevolucion = 20;
+    
+    cout << left
+         << setw(anchoCodigo) << "Codigo"
+         << setw(anchoDNI) << "DNI Usuario"
+         << setw(anchoFechaPrestamo) << "Fecha Prestamo"
+         << setw(anchoFechaDevolucion) << "Fecha Devolucion" << endl;
+    cout << string(anchoCodigo + anchoDNI + anchoFechaPrestamo + anchoFechaDevolucion, '-') << endl;
+
     for (const auto& prestamo : prestamos) {
-        cout << "Codigo del registro: " << prestamo.codigoRegistro << endl;
-        cout << "DNI del usuario: " << prestamo.dniUsuario << endl;
-        cout << "Fecha de prestamo: " << prestamo.fechaPrestamo << endl;
-        cout << "Fecha de devolucion: " << prestamo.fechaDevolucion << endl;
-        cout << "------------------------" << endl;
+        cout << left
+             << setw(anchoCodigo) << prestamo.codigoRegistro
+             << setw(anchoDNI) << prestamo.dniUsuario
+             << setw(anchoFechaPrestamo) << prestamo.fechaPrestamo
+             << setw(anchoFechaDevolucion) << prestamo.fechaDevolucion << endl;
     }
 }
 
 void guardarPrestamosEnFichero(const vector<Prestamo>& prestamos) {
-    ofstream archivo("../data/prestamos.txt");
+    ofstream archivo("../archive/prestamo.txt");
     if (!archivo.is_open()) {
-        cerr << "Error al abrir el archivo para guardar." << endl;
-        return;
+        throw runtime_error("No se pudo abrir el fichero para escritura.");
     }
     for (const auto& prestamo : prestamos) {
         archivo << prestamo.codigoRegistro << "|" << prestamo.dniUsuario << "|" 
                 << prestamo.fechaPrestamo << "|" << prestamo.fechaDevolucion << endl;
     }
     archivo.close();
+    cout << "Prestamos guardados exitosamente en el fichero." << endl;
 }
 
 void cargarPrestamosDesdeFichero(vector<Prestamo>& prestamos) {
-    ifstream archivo("../data/prestamos.txt");
+    ifstream archivo("../archive/prestamo.txt");
     if (!archivo.is_open()) {
-        cerr << "Error al abrir el archivo para cargar." << endl;
-        return;
+        throw runtime_error("No se pudo abrir el fichero para lectura. Se iniciara con una lista vacia.");
     }
     Prestamo prestamo;
     string linea;
     while (getline(archivo, linea)) {
-        size_t pos = 0;
+        stringstream ss(linea);
         string token;
-
-        pos = linea.find("|");
-        prestamo.codigoRegistro = stoi(linea.substr(0, pos));
-        linea.erase(0, pos + 1);
-
-        pos = linea.find("|");
-        prestamo.dniUsuario = linea.substr(0, pos);
-        linea.erase(0, pos + 1);
-
-        pos = linea.find("|");
-        prestamo.fechaPrestamo = linea.substr(0, pos);
-        linea.erase(0, pos + 1);
-
-        prestamo.fechaDevolucion = linea;
-
+        getline(ss, token, '|');
+        prestamo.codigoRegistro = stoi(token);
+        getline(ss, token, '|');
+        prestamo.dniUsuario = token;
+        getline(ss, token, '|');
+        prestamo.fechaPrestamo = token;
+        getline(ss, token, '|');
+        prestamo.fechaDevolucion = token;
         prestamos.push_back(prestamo);
     }
     archivo.close();
