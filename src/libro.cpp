@@ -291,7 +291,7 @@ void actualizarLibro(vector<Libro> &libros, int codigo)
                     }
                 }
                 libro.nombre = nom;
-                libro.autor = nom;
+                libro.autor = aut;
                 libro.anoPublicacion = anoPub;
                 libro.precio = prec;
                 cout << "Libro actualizado exitosamente." << endl;
