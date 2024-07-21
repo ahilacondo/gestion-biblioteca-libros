@@ -5,8 +5,15 @@
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
+#include <limits>
 
 using namespace std;
+
+int cod;
+string nom;
+string aut;
+int anoPub;
+float prec;
 
 // Implementación de funciones para Libro
 void agregarLibro(vector<Libro> &libros)
@@ -15,16 +22,34 @@ void agregarLibro(vector<Libro> &libros)
     {
         Libro libro;
         cout << "Ingrese codigo del libro: ";
-        cin >> libro.codigo;
+        while (!(cin >> cod)) {
+            throw std::invalid_argument("Error: código del libro debe ser un número entero.");
+            cin.clear(); // Limpia el estado de error de cin
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Ignora el resto de la línea
+        }
+        
         cout << "Ingrese nombre del libro: ";
         cin.ignore();
-        getline(cin, libro.nombre);
+        getline(cin, nom);
         cout << "Ingrese autor del libro: ";
-        getline(cin, libro.autor);
+        getline(cin, aut);
         cout << "Ingrese año de publicacion: ";
-        cin >> libro.anoPublicacion;
+        while (!(cin >> anoPub)) {
+            throw std::invalid_argument("Error: año de publicación debe ser un número entero.");
+            cin.clear(); // Limpia el estado de error de cin
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Ignora el resto de la línea
+        }
         cout << "Ingrese precio del libro: ";
-        cin >> libro.precio;
+        while (!(cin >> prec)) {
+            throw std::invalid_argument("Error: precio del libro debe ser un número decimal.");
+            cin.clear(); // Limpia el estado de error de cin
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Ignora el resto de la línea
+        }
+        libro.codigo = cod;
+        libro.nombre = nom;
+        libro.autor = aut;
+        libro.anoPublicacion = anoPub;
+        libro.precio = prec;
         libros.push_back(libro);
         cout << "Libro agregado exitosamente." << endl;
     }
@@ -108,13 +133,14 @@ void actualizarLibro(vector<Libro> &libros, int codigo)
     }
 }
 
-void listarLibros(const vector<Libro>& libros) {
+void listarLibros(const vector<Libro> &libros)
+{
     const int anchoCodigo = 10;
     const int anchoNombre = 30;
     const int anchoAutor = 25;
     const int anchoAno = 15;
     const int anchoPrecio = 15;
-    
+
     cout << left
          << setw(anchoCodigo) << "Codigo"
          << setw(anchoNombre) << "Nombre"
@@ -123,7 +149,8 @@ void listarLibros(const vector<Libro>& libros) {
          << setw(anchoPrecio) << "Precio" << endl;
     cout << string(anchoCodigo + anchoNombre + anchoAutor + anchoAno + anchoPrecio, '-') << endl;
 
-    for (const auto& libro : libros) {
+    for (const auto &libro : libros)
+    {
         cout << left
              << setw(anchoCodigo) << libro.codigo
              << setw(anchoNombre) << (libro.nombre.length() > anchoNombre - 3 ? libro.nombre.substr(0, anchoNombre - 3) + "..." : libro.nombre)
@@ -133,12 +160,15 @@ void listarLibros(const vector<Libro>& libros) {
     }
 }
 
-void guardarLibrosEnFichero(const vector<Libro>& libros) {
+void guardarLibrosEnFichero(const vector<Libro> &libros)
+{
     ofstream archivo("../archive/libro.txt");
-    if (!archivo.is_open()) {
+    if (!archivo.is_open())
+    {
         throw runtime_error("No se pudo abrir el fichero para escritura.");
     }
-    for (const auto& libro : libros) {
+    for (const auto &libro : libros)
+    {
         archivo << libro.codigo << "|" << libro.nombre << "|" << libro.autor << "|"
                 << libro.anoPublicacion << "|" << fixed << setprecision(2) << libro.precio << endl;
     }
@@ -146,14 +176,17 @@ void guardarLibrosEnFichero(const vector<Libro>& libros) {
     cout << "Libros guardados exitosamente en el fichero." << endl;
 }
 
-void cargarLibrosDesdeFichero(vector<Libro>& libros) {
+void cargarLibrosDesdeFichero(vector<Libro> &libros)
+{
     ifstream archivo("../archive/libro.txt");
-    if (!archivo.is_open()) {
+    if (!archivo.is_open())
+    {
         throw runtime_error("No se pudo abrir el fichero para lectura. Se iniciara con una lista vacia.");
     }
     Libro libro;
     string linea;
-    while (getline(archivo, linea)) {
+    while (getline(archivo, linea))
+    {
         stringstream ss(linea);
         string token;
         getline(ss, token, '|');

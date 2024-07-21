@@ -77,8 +77,28 @@ void manejarSubmenu(const string& titulo, vector<T>& items,
         }
         cout << opciones.size() + 1 << ". Volver\n" << endl;
         
-        cout << "Seleccione una opcion: ";
-        cin >> opcion;
+        bool valid_input = false;
+        while (!valid_input){
+            try
+            {
+                cout << "Seleccione una opcion: ";
+                if (!(cin >> opcion)) {
+                    throw invalid_argument("Entrada invalida. Debe ser un numero.");
+                }
+                if (opcion < 1 || opcion > static_cast<int>(opciones.size()) + 1) {
+                    throw out_of_range("Opcion no valida.");
+                }
+                valid_input = true;
+
+            }
+            catch(const std::exception& e)
+            {
+                std::cerr << e.what() << '\n';
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            }
+            
+        }
 
         if (opcion > 0 && opcion <= static_cast<int>(opciones.size())) {
             opciones[opcion - 1].second(items);
@@ -89,7 +109,7 @@ void manejarSubmenu(const string& titulo, vector<T>& items,
 }
 
 int main() {
-    signal(SIGINT, signalHandler);//errores o ctrl c
+    //signal(SIGINT, signalHandler);//errores o ctrl c
     int opcion;
         
     dbManager.cargarDatos(libros, canciones, peliculas, usuarios, prestamos);
@@ -106,7 +126,25 @@ int main() {
         cout << "3. Operaciones de Prestamo" << endl;
         cout << "4. Salir\n" << endl;
         cout << "Seleccione una opcion: ";
-        cin >> opcion;
+
+
+        bool valid_input = false;
+        while (!valid_input) {
+            try {
+                cout << "Seleccione una opcion: ";
+                if (!(cin >> opcion)) {
+                    throw invalid_argument("Entrada invalida. Debe ser un numero.");
+                }
+                if (opcion < 1 || opcion > 4) {
+                    throw out_of_range("Opcion no valida.");
+                }
+                valid_input = true;
+            } catch (const exception& e) {
+                cout << e.what() << endl;
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            }
+        }
 
         switch (opcion) {
             case 1:
@@ -175,7 +213,24 @@ void menuRegistro(vector<Libro>& libros, vector<Cancion>& canciones, vector<Peli
         cout << "3. Opciones de Peliculas" << endl;
         cout << "4. Volver al Menu Principal\n" << endl;
         cout << "Seleccione una opcion: ";
-        cin >> opcion;
+        
+        bool valid_input = false;
+        while (!valid_input) {
+            try {
+                cout << "Seleccione una opcion: ";
+                if (!(cin >> opcion)) {
+                    throw invalid_argument("Entrada invalida. Debe ser un numero.");
+                }
+                if (opcion < 1 || opcion > 4) {
+                    throw out_of_range("Opcion no valida.");
+                }
+                valid_input = true;
+            } catch (const exception& e) {
+                cout << e.what() << endl;
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            }
+        }
 
         switch (opcion) {
             case 1:
