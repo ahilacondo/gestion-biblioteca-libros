@@ -1,5 +1,7 @@
 #include "../include/registro.h"
 #include <iostream>
+#include <vector>
+#include <iomanip>
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
@@ -106,81 +108,66 @@ void actualizarLibro(vector<Libro> &libros, int codigo)
     }
 }
 
-void listarLibros(const vector<Libro> &libros)
-{
-    try
-    {
-        for (const auto &libro : libros)
-        {
-            cout << "Codigo: " << libro.codigo << endl;
-            cout << "Nombre: " << libro.nombre << endl;
-            cout << "Autor: " << libro.autor << endl;
-            cout << "Año de publicacion: " << libro.anoPublicacion << endl;
-            cout << "Precio: " << libro.precio << endl;
-            cout << "------------------------" << endl;
-        }
-    }
-    catch (const exception &e)
-    {
-        cerr << "Error al listar los libros: " << e.what() << endl;
+void listarLibros(const vector<Libro>& libros) {
+    const int anchoCodigo = 10;
+    const int anchoNombre = 30;
+    const int anchoAutor = 25;
+    const int anchoAno = 15;
+    const int anchoPrecio = 15;
+    
+    cout << left
+         << setw(anchoCodigo) << "Codigo"
+         << setw(anchoNombre) << "Nombre"
+         << setw(anchoAutor) << "Autor"
+         << setw(anchoAno) << "Año"
+         << setw(anchoPrecio) << "Precio" << endl;
+    cout << string(anchoCodigo + anchoNombre + anchoAutor + anchoAno + anchoPrecio, '-') << endl;
+
+    for (const auto& libro : libros) {
+        cout << left
+             << setw(anchoCodigo) << libro.codigo
+             << setw(anchoNombre) << (libro.nombre.length() > anchoNombre - 3 ? libro.nombre.substr(0, anchoNombre - 3) + "..." : libro.nombre)
+             << setw(anchoAutor) << (libro.autor.length() > anchoAutor - 3 ? libro.autor.substr(0, anchoAutor - 3) + "..." : libro.autor)
+             << setw(anchoAno) << libro.anoPublicacion
+             << setw(anchoPrecio) << fixed << setprecision(2) << libro.precio << endl;
     }
 }
 
-void guardarLibrosEnFichero(const vector<Libro> &libros)
-{
-    try
-    {
-        ofstream archivo("libros.txt");
-        if (!archivo.is_open())
-        {
-            throw runtime_error("No se pudo abrir el fichero para escritura.");
-        }
-        for (const auto &libro : libros)
-        {
-            archivo << libro.codigo << "|" << libro.nombre << "|" << libro.autor << "|"
-                    << libro.anoPublicacion << "|" << libro.precio << endl;
-        }
-        archivo.close();
-        cout << "Libros guardados exitosamente en el fichero." << endl;
+void guardarLibrosEnFichero(const vector<Libro>& libros) {
+    ofstream archivo("../archive/libro.txt");
+    if (!archivo.is_open()) {
+        throw runtime_error("No se pudo abrir el fichero para escritura.");
     }
-    catch (const exception &e)
-    {
-        cerr << "Error al guardar los libros en el fichero: " << e.what() << endl;
+    for (const auto& libro : libros) {
+        archivo << libro.codigo << "|" << libro.nombre << "|" << libro.autor << "|"
+                << libro.anoPublicacion << "|" << fixed << setprecision(2) << libro.precio << endl;
     }
+    archivo.close();
+    cout << "Libros guardados exitosamente en el fichero." << endl;
 }
 
-void cargarLibrosDesdeFichero(vector<Libro> &libros)
-{
-    try
-    {
-        ifstream archivo("libros.txt");
-        if (!archivo.is_open())
-        {
-            throw runtime_error("No se pudo abrir el fichero para lectura.");
-        }
-        Libro libro;
-        string linea;
-        while (getline(archivo, linea))
-        {
-            stringstream ss(linea);
-            string token;
-            getline(ss, token, '|');
-            libro.codigo = stoi(token);
-            getline(ss, token, '|');
-            libro.nombre = token;
-            getline(ss, token, '|');
-            libro.autor = token;
-            getline(ss, token, '|');
-            libro.anoPublicacion = stoi(token);
-            getline(ss, token, '|');
-            libro.precio = stof(token);
-            libros.push_back(libro);
-        }
-        archivo.close();
-        cout << "Libros cargados exitosamente desde el fichero." << endl;
+void cargarLibrosDesdeFichero(vector<Libro>& libros) {
+    ifstream archivo("../archive/libro.txt");
+    if (!archivo.is_open()) {
+        throw runtime_error("No se pudo abrir el fichero para lectura. Se iniciara con una lista vacia.");
     }
-    catch (const exception &e)
-    {
-        cerr << "Error al cargar los libros desde el fichero: " << e.what() << endl;
+    Libro libro;
+    string linea;
+    while (getline(archivo, linea)) {
+        stringstream ss(linea);
+        string token;
+        getline(ss, token, '|');
+        libro.codigo = stoi(token);
+        getline(ss, token, '|');
+        libro.nombre = token;
+        getline(ss, token, '|');
+        libro.autor = token;
+        getline(ss, token, '|');
+        libro.anoPublicacion = stoi(token);
+        getline(ss, token, '|');
+        libro.precio = stof(token);
+        libros.push_back(libro);
     }
+    archivo.close();
+    cout << "Libros cargados exitosamente desde el fichero." << endl;
 }
