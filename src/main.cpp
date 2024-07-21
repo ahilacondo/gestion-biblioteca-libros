@@ -4,33 +4,81 @@
 #include "../include/database_manager.h"
 #include <iostream>
 #include <vector>
+#include <iomanip>
+#include <limits>
 
 using namespace std;
+
+void pausar() {
+    cout << "\nPresione Enter para continuar...";
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    cin.get();
+}
+
+void mostrarBanner() {
+    cout << R"(
+    =================================================================================
+    ||                                                                             ||
+    ||   ######   ######    ######    ######  ######   #####  ###    ###  #####    ||
+    ||   ##   ##  ##   ##  ##    ##  ##      ##   ##  ##   ## ####  #### ##   ##   ||
+    ||   ######   ######   ##    ##  ## ###  ######   ####### ## #### ## #######   ||
+    ||   ##       ##   ##  ##    ##  ##   ## ##   ##  ##   ## ##  ##  ## ##   ##   ||
+    ||   ##       ##   ##   ######    #####  ##   ##  ##   ## ##      ## ##   ##   ||
+    ||                                                                             ||
+    ||                PROYECTO FINAL: PROGRAMACION DE SISTEMAS                     ||
+    ||                   SISTEMA DE GESTION DE BIBLIOTECA                          ||
+    ||                                                                             ||
+    =================================================================================
+    )" << endl;
+
+    pausar();
+}
+
+void limpiarPantalla() {
+    #ifdef _WIN32
+        system("cls");
+    #else
+        system("clear");
+    #endif
+}
 
 // Para las opciones de menu
 void menuRegistro(vector<Libro>& libros, vector<Cancion>& canciones, vector<Pelicula>& peliculas);
 void menuUsuario(vector<Usuario>& usuarios);
 void menuPrestamo(vector<Prestamo>& prestamos);
 
+vector<Libro> libros;
+vector<Cancion> canciones;
+vector<Pelicula> peliculas;
+vector<Usuario> usuarios;
+vector<Prestamo> prestamos;
+
+void signalHandler(int signum) {
+    cout << "\nInterrupcion recibida, guardando datos..." << endl;
+    DatabaseManager::guardarDatos(libros, canciones, peliculas, usuarios, prestamos);
+    cout << "Datos guardados exitosamente. Saliendo del programa." << endl;
+    exit(signum);
+}
+
 int main() {
-    vector<Libro> libros;
-    vector<Cancion> canciones;
-    vector<Pelicula> peliculas;
-    vector<Usuario> usuarios;
-    vector<Prestamo> prestamos;
+    signal(SIGINT, signalHandler);
     int opcion;
-    
+        
     // cargar datos al inicio del programa
     DatabaseManager::cargarDatos(libros, canciones, peliculas, usuarios, prestamos);
     
+    limpiarPantalla();
+    mostrarBanner();
+    
     do {
-        cout << "============================" << endl;
-        cout << "   Gestion de Biblioteca" << endl;
-        cout << "============================" << endl;
+        
+        cout << "\n============================" << endl;
+        cout << "   Gestion de Biblioteca    " << endl;
+        cout << "============================\n" << endl;
         cout << "1. Operaciones de Registro" << endl;
         cout << "2. Operaciones de Usuario" << endl;
         cout << "3. Operaciones de Prestamo" << endl;
-        cout << "4. Salir" << endl;
+        cout << "4. Salir\n" << endl;
         cout << "Seleccione una opcion: ";
         cin >> opcion;
 
@@ -45,7 +93,7 @@ int main() {
                 menuPrestamo(prestamos);
                 break;
             case 4:
-                cout << "Guardando datos y saliendo..." << endl;
+                cout << "\nGuardando datos y saliendo..." << endl;
                 DatabaseManager::guardarDatos(libros, canciones, peliculas, usuarios, prestamos);
                 break;
             default:
@@ -69,21 +117,21 @@ void menuRegistro(vector<Libro>& libros, vector<Cancion>& canciones, vector<Peli
     int codigoPelicula;
 
     do {
-        cout << "============================" << endl;
-        cout << "   Operaciones de Registro" << endl;
-        cout << "============================" << endl;
+        cout << "\n============================" << endl;
+        cout << "   Operaciones de Registro  " << endl;
+        cout << "============================\n" << endl;
         cout << "1. Opciones de Libros" << endl;
         cout << "2. Opciones de Canciones" << endl;
         cout << "3. Opciones de Peliculas" << endl;
-        cout << "4. Volver al Menu Principal" << endl;
+        cout << "4. Volver al Menu Principal\n" << endl;
         cout << "Seleccione una opcion: ";
         cin >> opcion;
 
         switch (opcion) {
             case 1:
-                cout << "============================" << endl;
+                cout << "\n============================" << endl;
                 cout << "   Operaciones de Libros    " << endl;
-                cout << "============================" << endl;
+                cout << "============================\n" << endl;
                 cout << "1. Agregar Libro" << endl;
                 cout << "2. Eliminar Libro" << endl;
                 cout << "3. Buscar Libro" << endl;
@@ -91,7 +139,7 @@ void menuRegistro(vector<Libro>& libros, vector<Cancion>& canciones, vector<Peli
                 cout << "5. Listar Libros" << endl;
                 cout << "6. Guardar Libros en Fichero" << endl;
                 cout << "7. Cargar Libros desde Fichero" << endl;
-                cout << "8. Volver a Registro" << endl;
+                cout << "8. Volver a Registro\n" << endl;
                 cout << "Seleccione una opcion: ";
                 cin >> opcion;
 
@@ -100,7 +148,7 @@ void menuRegistro(vector<Libro>& libros, vector<Cancion>& canciones, vector<Peli
                         agregarLibro(libros);
                         break;
                     case 2:
-                        cout << "Ingrese codigo del libro a eliminar: ";
+                        cout << "\nIngrese codigo del libro a eliminar: ";
                         cin >> codigoLibro;
                         eliminarLibro(libros, codigoLibro);
                         break;
@@ -124,16 +172,16 @@ void menuRegistro(vector<Libro>& libros, vector<Cancion>& canciones, vector<Peli
                         cargarLibrosDesdeFichero(libros);
                         break;
                     case 8:
-                        cout << "Volviendo a Registro..." << endl;
+                        cout << "\nVolviendo a Registro..." << endl;
                         break;
                     default:
                         cout << "Opcion no valida." << endl;
                 }
                 break;
             case 2:
-                cout << "============================" << endl;
+                cout << "\n============================" << endl;
                 cout << "  Operaciones de Canciones  " << endl;
-                cout << "============================" << endl;
+                cout << "============================\n" << endl;
                 cout << "1. Agregar Cancion" << endl;
                 cout << "2. Eliminar Cancion" << endl;
                 cout << "3. Buscar Cancion" << endl;
@@ -141,7 +189,7 @@ void menuRegistro(vector<Libro>& libros, vector<Cancion>& canciones, vector<Peli
                 cout << "5. Listar Canciones" << endl;
                 cout << "6. Guardar Canciones en Fichero" << endl;
                 cout << "7. Cargar Canciones desde Fichero" << endl;
-                cout << "8. Volver a Registro" << endl;
+                cout << "8. Volver a Registro\n" << endl;
                 cout << "Seleccione una opcion: ";
                 cin >> opcion;
 
@@ -150,7 +198,7 @@ void menuRegistro(vector<Libro>& libros, vector<Cancion>& canciones, vector<Peli
                         agregarCancion(canciones);
                         break;
                     case 2:
-                        cout << "Ingrese codigo de la cancion a eliminar: ";
+                        cout << "\nIngrese codigo de la cancion a eliminar: ";
                         cin >> codigoCancion;
                         eliminarCancion(canciones, codigoCancion);
                         break;
@@ -174,16 +222,16 @@ void menuRegistro(vector<Libro>& libros, vector<Cancion>& canciones, vector<Peli
                         cargarCancionesDesdeFichero(canciones);
                         break;
                     case 8:
-                        cout << "Volviendo a Registro..." << endl;
+                        cout << "\nVolviendo a Registro..." << endl;
                         break;
                     default:
                         cout << "Opcion no valida." << endl;
                 }
                 break;
             case 3:
-                cout << "============================" << endl;
+                cout << "\n============================" << endl;
                 cout << "  Operaciones de Peliculas  " << endl;
-                cout << "============================" << endl;
+                cout << "============================\n" << endl;
                 cout << "1. Agregar Pelicula" << endl;
                 cout << "2. Eliminar Pelicula" << endl;
                 cout << "3. Buscar Pelicula" << endl;
@@ -191,7 +239,7 @@ void menuRegistro(vector<Libro>& libros, vector<Cancion>& canciones, vector<Peli
                 cout << "5. Listar Peliculas" << endl;
                 cout << "6. Guardar Peliculas en Fichero" << endl;
                 cout << "7. Cargar Peliculas desde Fichero" << endl;
-                cout << "8. Volver a Registro" << endl;
+                cout << "8. Volver a Registro\n" << endl;
                 cout << "Seleccione una opcion: ";
                 cin >> opcion;
 
@@ -200,7 +248,7 @@ void menuRegistro(vector<Libro>& libros, vector<Cancion>& canciones, vector<Peli
                         agregarPelicula(peliculas);
                         break;
                     case 2:
-                        cout << "Ingrese codigo de la pelicula a eliminar: ";
+                        cout << "\nIngrese codigo de la pelicula a eliminar: ";
                         cin >> codigoPelicula;
                         eliminarPelicula(peliculas, codigoPelicula);
                         break;
@@ -224,19 +272,19 @@ void menuRegistro(vector<Libro>& libros, vector<Cancion>& canciones, vector<Peli
                         cargarPeliculasDesdeFichero(peliculas);
                         break;
                     case 8:
-                        cout << "Volviendo a Registro..." << endl;
+                        cout << "\nVolviendo a Registro..." << endl;
                         break;
                     default:
                         cout << "Opcion no valida." << endl;
                 }
                 break;
             case 4:
-                cout << "Volviendo al Menu Principal..." << endl;
+                cout << "\nVolviendo al Menu Principal..." << endl;
                 break;
             default:
                 cout << "Opcion no valida." << endl;
         }
-    } while (opcion != 14);
+    } while (opcion != 4);
 }
 
 // operaciones de usuario
@@ -245,13 +293,13 @@ void menuUsuario(vector<Usuario>& usuarios) {
     string dniUsuario;
 
     do {
-        cout << "============================" << endl;
+        cout << "\n============================" << endl;
         cout << "   Operaciones de Usuario   " << endl;
-        cout << "============================" << endl;
+        cout << "============================\n" << endl;
         cout << "1. Agregar Usuario" << endl;
         cout << "2. Eliminar Usuario" << endl;
         cout << "3. Listar Usuarios" << endl;
-        cout << "4. Volver al Menu Principal" << endl;
+        cout << "4. Volver al Menu Principal\n" << endl;
         cout << "Seleccione una opcion: ";
         cin >> opcion;
 
@@ -260,7 +308,7 @@ void menuUsuario(vector<Usuario>& usuarios) {
                 agregarUsuario(usuarios);
                 break;
             case 2:
-                cout << "Ingrese DNI del usuario a eliminar: ";
+                cout << "\nIngrese DNI del usuario a eliminar: ";
                 cin >> dniUsuario;
                 eliminarUsuario(usuarios, dniUsuario);
                 break;
@@ -282,13 +330,13 @@ void menuPrestamo(vector<Prestamo>& prestamos) {
     int codigoPrestamo;
     
     do {
-        cout << "============================" << endl;
+        cout << "\n============================" << endl;
         cout << "   Operaciones de Prestamo  " << endl;
-        cout << "============================" << endl;
+        cout << "============================\n" << endl;
         cout << "1. Establecer Prestamo" << endl;
         cout << "2. Establecer Devolucion" << endl;
         cout << "3. Listar Prestamos" << endl;
-        cout << "4. Volver al Menu Principal" << endl;
+        cout << "4. Volver al Menu Principal\n" << endl;
         cout << "Seleccione una opcion: ";
         cin >> opcion;
 
@@ -297,7 +345,7 @@ void menuPrestamo(vector<Prestamo>& prestamos) {
                 establecerPrestamo(prestamos);
                 break;
             case 2:
-                cout << "Ingrese codigo del registro a devolver: ";
+                cout << "\nIngrese codigo del registro a devolver: ";
                 cin >> codigoPrestamo;
                 establecerDevolucion(prestamos, codigoPrestamo);
                 break;
@@ -311,7 +359,7 @@ void menuPrestamo(vector<Prestamo>& prestamos) {
                 cargarPrestamosDesdeFichero(prestamos);
                 break;
             case 6:
-                cout << "Volviendo al Menu Principal..." << endl;
+                cout << "\nVolviendo al Menu Principal..." << endl;
                 break;
             default:
                 cout << "Opcion no valida." << endl;

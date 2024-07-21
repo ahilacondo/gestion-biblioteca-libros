@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <sstream>
 
 using namespace std;
 
@@ -19,11 +20,17 @@ struct Prestamo {
     }
 
     friend istream& operator>>(istream& is, Prestamo& prestamo) {
-        char delimiter;
-        return is >> prestamo.codigoRegistro >> delimiter
-                  >> prestamo.dniUsuario >> delimiter
-                  >> prestamo.fechaPrestamo >> delimiter
-                  >> prestamo.fechaDevolucion;
+        string line;
+        if (getline(is, line)) {
+            istringstream iss(line);
+            string codigo;
+            getline(iss, codigo, '|');
+            prestamo.codigoRegistro = stoi(codigo);
+            getline(iss, prestamo.dniUsuario, '|');
+            getline(iss, prestamo.fechaPrestamo, '|');
+            getline(iss, prestamo.fechaDevolucion);
+        }
+        return is;
     }
 };
 

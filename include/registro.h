@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <sstream>
 
 using namespace std;
 
@@ -20,12 +21,20 @@ struct Libro {
     }
 
     friend istream& operator>>(istream& is, Libro& libro) {
-        char delimiter;
-        return is >> libro.codigo >> delimiter
-                  >> libro.nombre >> delimiter
-                  >> libro.autor >> delimiter
-                  >> libro.anoPublicacion >> delimiter
-                  >> libro.precio;
+        string line;
+        if (getline(is, line)) {
+            istringstream iss(line);
+            string codigo, ano, precio;
+            getline(iss, codigo, '|');
+            libro.codigo = stoi(codigo);
+            getline(iss, libro.nombre, '|');
+            getline(iss, libro.autor, '|');
+            getline(iss, ano, '|');
+            libro.anoPublicacion = stoi(ano);
+            getline(iss, precio);
+            libro.precio = stof(precio);
+        }
+        return is;
     }
 };
 
@@ -42,12 +51,18 @@ struct Cancion {
     }
 
     friend istream& operator>>(istream& is, Cancion& cancion) {
-        char delimiter;
-        return is >> cancion.codigo >> delimiter
-                  >> cancion.nombre >> delimiter
-                  >> cancion.cantante >> delimiter
-                  >> cancion.compositor >> delimiter
-                  >> cancion.genero;
+        string line;
+        if (getline(is, line)) {
+            istringstream iss(line);
+            string codigo;
+            getline(iss, codigo, '|');
+            cancion.codigo = stoi(codigo);
+            getline(iss, cancion.nombre, '|');
+            getline(iss, cancion.cantante, '|');
+            getline(iss, cancion.compositor, '|');
+            getline(iss, cancion.genero);
+        }
+        return is;
     }
 };
 
@@ -64,12 +79,19 @@ struct Pelicula {
     }
 
     friend istream& operator>>(istream& is, Pelicula& pelicula) {
-        char delimiter;
-        return is >> pelicula.codigo >> delimiter
-                  >> pelicula.nombre >> delimiter
-                  >> pelicula.director >> delimiter
-                  >> pelicula.anoEstreno >> delimiter
-                  >> pelicula.genero;
+        string line;
+        if (getline(is, line)) {
+            istringstream iss(line);
+            string codigo, ano;
+            getline(iss, codigo, '|');
+            pelicula.codigo = stoi(codigo);
+            getline(iss, pelicula.nombre, '|');
+            getline(iss, pelicula.director, '|');
+            getline(iss, ano, '|');
+            pelicula.anoEstreno = stoi(ano);
+            getline(iss, pelicula.genero);
+        }
+        return is;
     }
 };
 
